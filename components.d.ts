@@ -10,7 +10,8 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    AConfigProvider: typeof import('@arco-design/web-vue')['ConfigProvider']
+    AInput: typeof import('@arco-design/web-vue')['Input']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
