@@ -29,7 +29,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       port: VITE_PORT,
-      https: true,
+      https: false,
       host: true,
     },
     esbuild: {
