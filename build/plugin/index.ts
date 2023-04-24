@@ -18,6 +18,7 @@ export function createPlugins(env: ViteEnv, isBuild: boolean) {
     }),
     Components({
       resolvers: [ArcoResolver({ sideEffect: true })],
+      include: [/\.vue$/, /\.vue\?vue/, /\.tsx$/]
     }),
     mkcert({
       source: 'coding',

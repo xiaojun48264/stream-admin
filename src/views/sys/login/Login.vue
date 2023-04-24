@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import loginForm from './login-form.vue'
+import LoginForm from './login-form.vue'
+import { createAsyncComponent } from '@/utils/factory/createAsyncComponent'
+import { ref } from 'vue'
+
+const ResetPassword = createAsyncComponent(() => import('./reset-password.vue'))
+
+const showResetPassword = ref(false)
 </script>
 
 <template>
@@ -7,13 +13,30 @@ import loginForm from './login-form.vue'
     <div class="container">
       <div class="stream-login-logo">Stream Admin</div>
       <div class="stream-login-form">
-        <login-form />
+        <transition name="fade-slide" mode="out-in">
+          <login-form v-if="!showResetPassword" @reset-password="showResetPassword = true" />
+          <reset-password v-else @back-login="showResetPassword = false" />
+        </transition>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="less">
+@keyframes backInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+    transform-origin: center bottom;
+  }
+  80% {
+    transform: translate3d(0, 10px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
 .stream-login {
   width: 100%;
   height: 100%;
@@ -26,6 +49,8 @@ import loginForm from './login-form.vue'
     margin: 0 auto;
     margin-top: 10%;
     padding: 16px;
+    animation: backInDown 1s ease;
+    animation-fill-mode: both;
   }
   &-logo {
     font-size: 40px;

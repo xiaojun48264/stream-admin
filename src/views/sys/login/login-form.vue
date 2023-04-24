@@ -9,37 +9,70 @@ import {
   IconMessage,
 } from '@arco-design/web-vue/es/icon'
 
+const emits = defineEmits(['resetPassword'])
+
 // 当前选中的tab
 const activeTab = ref('account')
 
 // 登录信息
 const loginInfo = ref({
-  username: '',
+  user_name: '',
   password: '',
+  phone: '',
+  sms_code: '',
+  captcha: '',
 })
+
+// 校验规则
+const rules = {
+  user_name: [{ required: true, message: '请输入账户名/手机号/邮箱' }],
+  password: [{ required: true, message: '请输入密码' }],
+  phone: [{ required: true, message: '请输入手机号' }],
+  sms_code: [{ required: true, message: '请输入验证码' }],
+  captcha: [{ required: true, message: '请输入图形码' }],
+}
+
+// 表单实例
+const formRef = ref()
+
+// 登录
+function login() {
+  formRef.value?.validate()
+}
+
+// 重置密码
+function resetPassword() {
+  emits('resetPassword')
+}
 </script>
 
 <template>
-  <a-tabs v-model="activeTab" lazy-load animation>
+  <a-tabs v-model:active-key="activeTab" lazy-load animation>
     <a-tab-pane key="account" title="账户密码登录">
-      <a-form :model="loginInfo" auto-label-width>
-        <a-form-item>
-          <a-input v-model="loginInfo.username" placeholder="账户名/手机号/邮箱">
+      <a-form
+        v-if="activeTab === 'account'"
+        ref="formRef"
+        :model="loginInfo"
+        :rules="rules"
+        size="large"
+        auto-label-width>
+        <a-form-item field="user_name" hide-asterisk>
+          <a-input v-model="loginInfo.user_name" placeholder="账户名/手机号/邮箱">
             <template #prefix>
               <IconUser />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item>
+        <a-form-item field="password" hide-asterisk>
           <a-input-password v-model="loginInfo.password" placeholder="密码">
             <template #prefix>
               <IconLock />
             </template>
           </a-input-password>
         </a-form-item>
-        <a-form-item>
+        <a-form-item field="captcha" hide-asterisk>
           <div>
-            <a-input placeholder="图形码">
+            <a-input v-model="loginInfo.captcha" placeholder="图形码">
               <template #prefix>
                 <IconSafe />
               </template>
@@ -49,29 +82,36 @@ const loginInfo = ref({
         <a-form-item>
           <div class="flex flex-row items-center justify-between w-full">
             <a-checkbox>记住密码</a-checkbox>
-            <span class="hover:cursor-pointer">
+            <span class="hover:cursor-pointer hover:opacity-70" @click="resetPassword">
               忘记密码
               <IconQuestionCircleFill />
             </span>
           </div>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" long>登录</a-button>
+          <a-button type="primary" long @click="login">登录</a-button>
         </a-form-item>
       </a-form>
     </a-tab-pane>
     <a-tab-pane key="phone" title="手机号登录">
-      <a-form :model="loginInfo" auto-label-width>
-        <a-form-item>
-          <a-input placeholder="手机号">
+      <a-form
+        v-if="activeTab === 'phone'"
+        ref="formRef"
+        :model="loginInfo"
+        :rules="rules"
+        size="large"
+        auto-label-width
+      >
+        <a-form-item field="phone" hide-asterisk>
+          <a-input v-model="loginInfo.phone" placeholder="手机号">
             <template #prefix>
               <IconMobile />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item>
+        <a-form-item field="sms_code" hide-asterisk>
           <div class="w-full flex flex-row items-center justify-between">
-            <a-input placeholder="验证码">
+            <a-input v-model="loginInfo.sms_code" placeholder="验证码">
               <template #prefix>
                 <IconMessage />
               </template>
@@ -79,9 +119,9 @@ const loginInfo = ref({
             <a-button class="ml-2" type="outline">获取验证码</a-button>
           </div>
         </a-form-item>
-        <a-form-item>
+        <a-form-item field="captcha" hide-asterisk>
           <div>
-            <a-input placeholder="图形码">
+            <a-input v-model="loginInfo.captcha" placeholder="图形码">
               <template #prefix>
                 <IconSafe />
               </template>
@@ -89,7 +129,7 @@ const loginInfo = ref({
           </div>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" long>登录</a-button>
+          <a-button type="primary" long @click="login">登录</a-button>
         </a-form-item>
       </a-form>
     </a-tab-pane>
