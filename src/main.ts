@@ -2,16 +2,19 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import '@/assets/styles/index.less'
 import { setupStore } from '@/store'
-import { setupRouter } from './router'
+import { setupRouter, router } from '@/router'
+import { setupRouterGuard } from '@/router/guard'
 
 async function bootstrap() {
-    const app = createApp(App)
+  const app = createApp(App)
 
-    setupStore(app)
+  setupStore(app)
 
-    setupRouter(app)
+  setupRouter(app)
 
-    app.mount('#app')
+  setupRouterGuard(router)
+
+  app.mount('#app')
 }
 
 bootstrap()

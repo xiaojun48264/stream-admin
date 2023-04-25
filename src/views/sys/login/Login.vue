@@ -37,6 +37,28 @@ const showResetPassword = ref(false)
     transform: none;
   }
 }
+@media (max-width: theme('screens.md')) {
+  .stream-login {
+    background: #fff !important;
+    .container {
+      @apply border border-solid shadow-md rounded;
+    }
+  }
+}
+@media (min-width: theme('screens.md')) {
+  .arco-input {
+    &-wrapper {
+      background-color: var(--color-bg-2);
+      border-color: var(--color-fill-2);
+      &:hover {
+        background-color: var(--color-bg-3);
+      }
+    }
+    &-prefix {
+      color: rgb(var(--primary-6)) !important;
+    }
+  }
+}
 .stream-login {
   width: 100%;
   height: 100%;
@@ -44,10 +66,10 @@ const showResetPassword = ref(false)
   background-size: 100% 100%;
   position: relative;
   overflow: hidden;
+  padding: 120px 0;
   .container {
     width: 400px;
     margin: 0 auto;
-    margin-top: 10%;
     padding: 16px;
     animation: backInDown 1s ease;
     animation-fill-mode: both;
@@ -64,18 +86,6 @@ const showResetPassword = ref(false)
     .arco-tabs-nav::before {
       background-color: transparent;
     }
-  }
-}
-.arco-input {
-  &-wrapper {
-    background-color: var(--color-bg-2);
-    border-color: var(--color-fill-2);
-    &:hover {
-      background-color: var(--color-bg-3);
-    }
-  }
-  &-prefix {
-    color: rgb(var(--primary-6)) !important;
   }
 }
 </style>

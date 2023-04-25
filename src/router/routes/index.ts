@@ -8,6 +8,20 @@ export const RootRoute: RouteRecordRaw = {
   meta: {
     title: 'Root',
   },
+  children: [
+    {
+      path: PageEnum.BASE_HOME.replace('/', ''),
+      name: 'Dashboard',
+      redirect: PageEnum.BASE_HOME + '/analysis',
+      children: [
+        {
+          path: 'analysis',
+          name: 'Analysis',
+          component: () => import('@/views/dashboard/analysis/index.vue')
+        }
+      ]
+    }
+  ]
 }
 
 export const LoginRoute: RouteRecordRaw = {

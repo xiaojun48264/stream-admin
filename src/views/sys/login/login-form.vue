@@ -8,8 +8,13 @@ import {
   IconMobile,
   IconMessage,
 } from '@arco-design/web-vue/es/icon'
+import { useUserStore } from '@/store/modules/user'
+import { useRouter } from 'vue-router'
 
 const emits = defineEmits(['resetPassword'])
+
+const router = useRouter()
+const userStore = useUserStore()
 
 // 当前选中的tab
 const activeTab = ref('account')
@@ -36,8 +41,10 @@ const rules = {
 const formRef = ref()
 
 // 登录
-function login() {
-  formRef.value?.validate()
+async function login() {
+  await formRef.value?.validate()
+  await userStore.login()
+  router.push('/')
 }
 
 // 重置密码
@@ -55,7 +62,8 @@ function resetPassword() {
         :model="loginInfo"
         :rules="rules"
         size="large"
-        auto-label-width>
+        auto-label-width
+      >
         <a-form-item field="user_name" hide-asterisk>
           <a-input v-model="loginInfo.user_name" placeholder="账户名/手机号/邮箱">
             <template #prefix>
