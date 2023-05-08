@@ -6,6 +6,7 @@ import { ref } from 'vue'
 const ResetPassword = createAsyncComponent(() => import('./reset-password.vue'))
 
 const showResetPassword = ref(false)
+
 </script>
 
 <template>
